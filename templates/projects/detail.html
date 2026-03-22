@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} — Devyansh Verma{% endblock %}
+
+{% block extra_head %}
+<style>
+  .project-hero {
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .project-hero-glow {
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, {{ project.color }}18 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .project-hero-content { position: relative; z-index: 1; }
+
+  .back-link {
+    font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    color: var(--text-muted); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 2rem; transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  .project-icon-big { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+
+  .project-detail-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 0.75rem;
+  }
+  .project-accent-line {
+    height: 4px; width: 60px; border-radius: 2px;
+    background: {{ project.color }};
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tagline-big {
+    font-size: 1.1rem; color: var(--text-muted);
+    line-height: 1.6; max-width: 600px;
+    margin-bottom: 1.75rem;
+  }
+
+  .project-meta {
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+    margin-bottom: 2rem;
+  }
+  .meta-item {
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    padding: 5px 12px; border-radius: 6px;
+    border: 1px solid var(--border); color: var(--text-muted);
+    background: var(--bg3);
+  }
+  .meta-item.date { color: {{ project.color }}; border-color: {{ project.color }}40; background: {{ project.color }}10; }
+
+  /* ── Content sections ── */
+  .project-body { padding: 4rem 0 6rem; }
+
+  .two-col {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;
+    align-items: start;
+  }
+
+  .case-block { margin-bottom: 3rem; }
+  .case-block-label {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: {{ project.color }}; margin-bottom: 0.75rem;
+  }
+  .case-block-title {
+    font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .case-block-text {
+    font-size: 0.95rem; color: var(--text-muted); line-height: 1.7;
+  }
+
+  /* highlights list */
+  .highlights-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .highlights-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 0.92rem; line-height: 1.6; color: var(--text-muted);
+  }
+  .highlights-list li::before {
+    content: '▸';
+    color: {{ project.color }};
+    flex-shrink: 0; margin-top: 1px;
+    font-size: 0.8rem;
+  }
+
+  /* sidebar */
+  .sidebar-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    position: sticky; top: 80px;
+  }
+  .sidebar-section { margin-bottom: 1.5rem; }
+  .sidebar-section:last-child { margin-bottom: 0; }
+  .sidebar-label {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 10px;
+  }
+
+  .impact-badge {
+    display: block;
+    background: {{ project.color }}12;
+    border: 1px solid {{ project.color }}30;
+    border-radius: 10px; padding: 12px;
+    font-size: 0.86rem; color: var(--text);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .sidebar-card { position: static; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<div class="project-hero">
+  <div class="project-hero-glow"></div>
+  <div class="container project-hero-content">
+
+    <a href="{% url 'projects:list' %}" class="back-link">← All Projects</a>
+
+    <span class="project-icon-big">{{ project.icon }}</span>
+    <div class="project-accent-line"></div>
+    <h1 class="project-detail-title">{{ project.title }}</h1>
+    <p class="project-tagline-big">{{ project.tagline }}</p>
+
+    <div class="project-meta">
+      <span class="meta-item date">📅 {{ project.date }}</span>
+      {% for tag in project.tags %}
+      <span class="meta-item">{{ tag }}</span>
+      {% endfor %}
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="{{ project.github }}" target="_blank" class="btn btn-primary">View on GitHub ↗</a>
+      <a href="{% url 'contact:contact' %}" class="btn btn-outline">Discuss this project</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Body -->
+<div class="project-body">
+  <div class="container">
+    <div class="two-col">
+
+      <!-- Main content -->
+      <div>
+        <!-- Problem -->
+        <div class="case-block" data-aos="fade-up">
+          <div class="case-block-label">The Problem</div>
+          <div class="case-block-title">What needed solving</div>
+          <div class="case-block-text">{{ project.problem }}</div>
+        </div>
+
+        <!-- Solution -->
+        <div class="case-block" data-aos="fade-up" data-aos-delay="80">
+          <div class="case-block-label">The Solution</div>
+          <div class="case-block-title">How it was built</div>
+          <div class="case-block-text">{{ project.solution }}</div>
+        </div>
+
+        <!-- Key Highlights -->
+        <div class="case-block" data-aos="fade-up" data-aos-delay="120">
+          <div class="case-block-label">Technical Highlights</div>
+          <div class="case-block-title">What was built</div>
+          <ul class="highlights-list">
+            {% for h in project.highlights %}
+            <li>{{ h }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="sidebar-card" data-aos="fade-up" data-aos-delay="60">
+
+          <div class="sidebar-section">
+            <div class="sidebar-label">Impact</div>
+            <span class="impact-badge">{{ project.impact }}</span>
+          </div>
+
+          <div class="sidebar-section">
+            <div class="sidebar-label">Stack</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              {% for tag in project.tags %}
+              <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <div class="sidebar-label">Timeline</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--text-muted);">{{ project.date }}</div>
+          </div>
+
+          <a href="{{ project.github }}" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;">
+            View Source ↗
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Projects — Devyansh Verma{% endblock %}
+
+{% block extra_head %}
+<style>
+  .page-hero {
+    padding: 5rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    padding: 4rem 0;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    display: flex; flex-direction: column;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  }
+
+  .project-card-accent {
+    height: 4px;
+    background: var(--project-color, var(--accent));
+  }
+
+  .project-card-body { padding: 1.75rem; flex: 1; }
+
+  .project-card-icon {
+    font-size: 2rem; margin-bottom: 1rem;
+    display: block;
+  }
+
+  .project-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem; font-weight: 800;
+    margin-bottom: 6px; line-height: 1.2;
+  }
+
+  .project-card-tagline {
+    font-size: 0.86rem; color: var(--text-muted);
+    line-height: 1.5; margin-bottom: 1.25rem;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
+
+  .project-card-footer {
+    padding: 1rem 1.75rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  }
+
+  .project-date { color: var(--text-muted); }
+  .project-cta {
+    color: var(--accent);
+    display: flex; align-items: center; gap: 4px;
+    transition: gap 0.2s;
+  }
+  .project-card:hover .project-cta { gap: 8px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-hero">
+  <div class="container">
+    <p class="section-label" data-aos="fade-up">What I've shipped</p>
+    <h1 class="section-title" data-aos="fade-up" data-aos-delay="60">Projects</h1>
+    <p style="color:var(--text-muted); margin-top:1rem; font-size:0.95rem; max-width:520px;" data-aos="fade-up" data-aos-delay="120">
+      Real problems, real solutions — from AI-powered education to rural healthcare platforms.
+    </p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="projects-grid">
+    {% for project in projects %}
+    <a href="{% url 'projects:detail' project.slug %}" class="project-card"
+       style="--project-color: {{ project.color }}"
+       data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:0 }}50">
+      <div class="project-card-accent"></div>
+      <div class="project-card-body">
+        <span class="project-card-icon">{{ project.icon }}</span>
+        <div class="project-card-title">{{ project.title }}</div>
+        <div class="project-card-tagline">{{ project.tagline }}</div>
+        <div class="project-tags">
+          {% for tag in project.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="project-card-footer">
+        <span class="project-date">{{ project.date }}</span>
+        <span class="project-cta">View case study →</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
