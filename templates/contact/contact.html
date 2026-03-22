@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Contact — Devyansh Verma{% endblock %}
 
@@ -238,7 +239,7 @@
           <div class="photo-frame">
 
             <!-- STEP: Replace the div below with your <img> tag when you have a photo -->
-            <img src="/static/img/devyansh.jpg" alt="Devyansh Verma" />
+            <img src="{% static 'img/devyansh.jpg' %}" alt="Devyansh Verma" />
 
             <!-- DELETE this avatar block once you add your real image -->
             
