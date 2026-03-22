@@ -8,7 +8,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,.onrender.com').split(',')
+raw_hosts = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,.onrender.com')
+ALLOWED_HOSTS = [host.replace('https://', '').replace('http://', '').rstrip('/') for host in raw_hosts.split(',')]
+if '.onrender.com' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append('.onrender.com')
+
 if not DEBUG:
     ALLOWED_HOSTS = ['*']
 
