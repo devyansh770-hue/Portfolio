@@ -8,13 +8,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-raw_hosts = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,.onrender.com,.vercel.app')
-ALLOWED_HOSTS = [host.replace('https://', '').replace('http://', '').rstrip('/') for host in raw_hosts.split(',')]
-if '.onrender.com' not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append('.onrender.com')
-if '.vercel.app' not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append('.vercel.app')
+raw_hosts = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost')
+ALLOWED_HOSTS = [host.strip().replace('https://', '').replace('http://', '').rstrip('/') for host in raw_hosts.split(',') if host.strip()]
 
+# Always allow these hosting platforms — appended unconditionally so env var can't block them
+for _host in ['.vercel.app', '.onrender.com', 'localhost', '127.0.0.1']:
+    if _host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_host)
+
+# In production (DEBUG=False) allow all — security is handled by Vercel/render edge layer
 if not DEBUG:
     ALLOWED_HOSTS = ['*']
 
