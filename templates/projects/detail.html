@@ -146,6 +146,9 @@
 
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
       <a href="{{ project.github }}" target="_blank" class="btn btn-primary">View on GitHub ↗</a>
+      {% if project.live %}
+      <a href="{{ project.live }}" target="_blank" class="btn btn-outline" style="border-color:var(--accent); color:var(--accent);">🚀 Live Demo ↗</a>
+      {% endif %}
       <a href="{% url 'contact:contact' %}" class="btn btn-outline">Discuss this project</a>
     </div>
 
@@ -211,6 +214,11 @@
           <a href="{{ project.github }}" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;">
             View Source ↗
           </a>
+          {% if project.live %}
+          <a href="{{ project.live }}" target="_blank" class="btn btn-outline" style="width:100%; justify-content:center; margin-top:0.5rem; border-color:var(--accent); color:var(--accent);">
+            🚀 Live Demo ↗
+          </a>
+          {% endif %}
 
         </div>
       </div>

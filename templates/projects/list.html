@@ -81,7 +81,7 @@
     <p class="section-label" data-aos="fade-up">What I've shipped</p>
     <h1 class="section-title" data-aos="fade-up" data-aos-delay="60">Projects</h1>
     <p style="color:var(--text-muted); margin-top:1rem; font-size:0.95rem; max-width:520px;" data-aos="fade-up" data-aos-delay="120">
-      Real problems, real solutions — from AI-powered education to rural healthcare platforms.
+      Real problems, real solutions — from AI-powered education to fintech platforms, data dashboards, and competitive programming.
     </p>
   </div>
 </div>
@@ -101,6 +101,9 @@
           {% for tag in project.tags %}
           <span class="tag">{{ tag }}</span>
           {% endfor %}
+          {% if project.live %}
+          <span class="tag" style="border-color:var(--accent); color:var(--accent); background:rgba(0,245,212,0.08);">🚀 Live</span>
+          {% endif %}
         </div>
       </div>
       <div class="project-card-footer">
